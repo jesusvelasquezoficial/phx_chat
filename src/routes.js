@@ -2,9 +2,10 @@ import Home_Default from './assets/vue/pages/home.vue';
 
 import Login from './assets/vue/pages/Login.vue';
 import Signin from './assets/vue/pages/Signin.vue';
-import Home from './assets/vue/pages/home2.vue'; // cambiar a -->' Home '
+import Home from './assets/vue/pages/home2.vue'; // cambiar a -->' ./assets/vue/pages/home.vue '
 import RegistroExitoso from './assets/vue/pages/registro-exitoso.vue'; 
 import Contactos from './assets/vue/pages/contactos.vue'; 
+import MenuLateral from './assets/vue/pages/menu-lateral.vue'; 
 
 
 import AboutPage from './assets/vue/pages/about.vue';
@@ -37,6 +38,10 @@ export default [
   {
     path: '/contactos/', // Cambiar a ruta principal --> ' / '
     component: Contactos
+  },
+  {
+    path: '/menu-lateral/', // Cambiar a ruta principal --> ' / '
+    component: MenuLateral
   },
   {
     path: '/about/',
