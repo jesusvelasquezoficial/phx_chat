@@ -7,7 +7,6 @@ import RegistroExitoso from './assets/vue/pages/registro-exitoso.vue';
 import Contactos from './assets/vue/pages/contactos.vue'; 
 import MenuLateral from './assets/vue/pages/menu-lateral.vue'; 
 
-
 import AboutPage from './assets/vue/pages/about.vue';
 import FormPage from './assets/vue/pages/form.vue';
 import DynamicRoutePage from './assets/vue/pages/dynamic-route.vue';
@@ -17,19 +16,32 @@ import ColorThemes from './assets/vue/pages/color-themes.vue';
 import Chat from './assets/vue/pages/chat.vue';
 import Vuex from './assets/vue/pages/vuex.vue';
 
+import Auth from './assets/auth';
+
+// Guardianes de Autenticacion
+const auth = (routeTo, routeFrom, resolve, reject) => {
+  if (!Auth.user.authenticated) {
+    resolve({ component: Login })
+  } else {
+    resolve({ 
+      // component: Home_Default
+      component: Home
+    })
+  }
+}
+
 export default [
-  // {
-  //   path: '/',
-  //   component: Login
-  // },
+  {
+    path: '/login',
+    component: Login
+  },
   {
     path: '/signin/',
     component: Signin
   },
   {
     path: '/', // Cambiar a ruta principal --> ' / '
-    // component: Home_Default
-    component: Home
+    async: auth
   },
   {
     path: '/registro-exitoso/', // Cambiar a ruta principal --> ' / '

@@ -5,7 +5,7 @@
       <img src="../../images/logo.png" width="130px">
     </f7-block>
     <!-- Titulo -->
-    <f7-login-screen-title>{{ titulo }}</f7-login-screen-title>
+    <f7-login-screen-title>Inicio de Sesión</f7-login-screen-title>
     <!-- Formulario -->
     <f7-list form>
       <!-- Email -->
@@ -47,20 +47,19 @@
     <f7-block-title>{{ error }}</f7-block-title>
     <!-- Links a Registro de Usuarios -->
     <f7-list>
-      <f7-block-footer>¿Aun no tienes cuenta?<br> <f7-link href="/signin/">¡Registrate!</f7-link>.</f7-block-footer>
+      <f7-block-footer>¿Aun no tienes cuenta?<br> <f7-link href="/signin/">¡Registrate!</f7-link></f7-block-footer>
     </f7-list>
   </f7-page>
 </template>
 
 <script>
 // Funciones de autenticacion
-// import auth from '../auth'
+import Auth from '../../auth'
 
 export default {
   components: {},
   data () {
     return {
-      titulo: 'Inicio de Sesión',
       formLogin: {
         email: "",
         password: ""
@@ -81,7 +80,7 @@ export default {
         if (this.validarEmail()) {
             console.log(this.validarEmail())
             self.error = ""
-            auth.login(this, self.formLogin)
+            Auth.login(this, self.formLogin)
             .then((resp) => {
               if (Object.keys(resp.data) != "errors"){
                 console.log(resp.status)
@@ -91,6 +90,7 @@ export default {
                 window.localStorage.setItem('id_token', resp.data.id)
                 window.localStorage.setItem('v_username', resp.data.username)
                 window.localStorage.setItem('v_email', resp.data.email)
+
                 // window.userToken = resp.data.user.token
                 // localStorage.setItem('token',resp.data.user.token)
                 location.reload()
@@ -112,25 +112,6 @@ export default {
               console.log(Object.keys(error))
               console.log(error)
             })
-            // api.getDataSesion(self.formLogin.email, self.formLogin.password)
-            // .then(function(data) {
-            //   console.log(data)
-            //   console.log(Object.keys(data))
-            //   if(Object.keys(data) != "errors"){
-            //     // Devolvemos los datos OJO
-            //     // self.json = data.data
-            //     router.navigate('/paginaPrincipal/')
-            //   }else{
-            //     self.error = data.errors
-            //     // self.error = "Usted no esta registrador por favor registrese"
-            //   }
-            // }).catch(errors => {
-            //   self.error = "Usted no esta registrador"
-            //   self.error = errors
-            //   console.log("Usted no esta registrador")
-            //   console.log(errors)
-            //   console.log(Object.keys(errors))
-            // })
         }else{
           self.error = "Email invalido"
         }

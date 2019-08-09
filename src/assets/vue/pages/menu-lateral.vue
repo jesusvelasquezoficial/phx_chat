@@ -19,6 +19,8 @@
   </f7-page>
 </template>
 <script>
+import Auth from '../../auth'
+
 export default {
   components: {},
   data () {
@@ -28,7 +30,7 @@ export default {
   },
   methods:{
     Salir: () => {
-      auth.signOut(this)
+      Auth.signOut(this)
       location.reload()
     }
   }

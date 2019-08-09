@@ -40,6 +40,11 @@ export default {
                 id: 'io.framework7.testapp',
             }
         }
+    },
+     on: {
+        init: function () {
+        console.log('App initialized');
+        }
     }
 }
 </script>

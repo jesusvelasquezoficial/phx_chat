@@ -54,5 +54,6 @@ export default new Vue({
       // run after everything is in-place
       FastClick.attach(document.body);
     });
-  }
+  },
+  
 });

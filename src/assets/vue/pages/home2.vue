@@ -39,6 +39,7 @@
       <f7-list-item link="/contactos/" title="Todos los Contactos"></f7-list-item>
       <f7-list-item link="/registro-exitoso/" title="Registro Exitoso"></f7-list-item>
     </f7-list>
+    <f7-link href="#" class="button button-raised open-toast-bottom something">Toast on Bottom</f7-link>
   </f7-page>
   <!-- Mensajes de objetos JSON -->
   <!-- <div class="">
