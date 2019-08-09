@@ -39,10 +39,6 @@
       <f7-list-item link="/contactos/" title="Todos los Contactos"></f7-list-item>
       <f7-list-item link="/registro-exitoso/" title="Registro Exitoso"></f7-list-item>
     </f7-list>
-    <!-- Cerrar Sesion -->
-    <f7-list>
-      <f7-link @click="Salir" fill   text-color="red" class="item-divider">Cerrar Sesión</f7-link>
-    </f7-list>
   </f7-page>
   <!-- Mensajes de objetos JSON -->
   <!-- <div class="">
@@ -98,11 +94,8 @@ export default {
         // self.error = errors
 
       })
-    },
-    Salir: () => {
-      auth.signOut(this)
-      location.reload()
     }
+    
   }
 
 }
