@@ -17,11 +17,10 @@
         @input="formLogin.email = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
         error-message="Debe ingresar un correo electronico"
-        autocomplete="new-user"
+        autocomplete
         clear-button
       ></f7-list-input>
       <!-- Password -->
@@ -33,7 +32,6 @@
         @input="formLogin.password = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
         clear-button
@@ -44,7 +42,7 @@
       <f7-button @click="Ingresar" color="deeporange" raised fill round>Ingresar</f7-button>
     </f7-block>
     <!-- Mensajes de Error -->
-    <f7-block-title>{{ error }}</f7-block-title>
+    <f7-block-title class="text-align-center">{{ error }}</f7-block-title>
     <!-- Links a Registro de Usuarios -->
     <f7-list>
       <f7-block-footer>¿Aun no tienes cuenta?<br> <f7-link href="/signin/">¡Registrate!</f7-link></f7-block-footer>
@@ -127,7 +125,6 @@ export default {
       return re.test(this.formLogin.email)
     }
   }
-
 }
 </script>
 

@@ -5,7 +5,7 @@
       <img src="../../images/logo.png" width="130px">
     </f7-block>
     <!-- Titulo -->
-    <f7-login-screen-title>{{ titulo }}</f7-login-screen-title>
+    <f7-login-screen-title>Registro de Usuario</f7-login-screen-title>
     <!-- Formulario -->
     <f7-list form>
       <!-- Username -->
@@ -17,23 +17,25 @@
         @input="formSignin.username = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
+        error-message="Debe ingresar un nombre de usuario"
+        autocomplete
         clear-button
       ></f7-list-input>
       <!-- Email -->
       <f7-list-input
         label="Correo Electronico"
-        type="text"
+        type="email"
         placeholder="Correo Electronico"
         :value="formSignin.email"
         @input="formSignin.email = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
+        error-message="Debe ingresar un correo electronico"
+        autocomplete
         clear-button
       ></f7-list-input>
       <!-- Password -->
@@ -45,7 +47,6 @@
         @input="formSignin.password = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
         clear-button
@@ -59,7 +60,6 @@
         @input="formSignin.password_confirmation = $event.target.value"
         outline
         floating-label
-        info=""
         required
         validate
         clear-button
@@ -70,22 +70,21 @@
       <f7-button @click="Registrarse" color="deeporange" raised fill round>Registrarse</f7-button>
     </f7-block>
     <!-- Mensajes de Error -->
-    <f7-block-title>{{ error }}</f7-block-title>
+    <f7-block-title class="text-align-center">{{ error }}</f7-block-title>
     <!-- Links a Inicio de Sesion -->
     <f7-list>
-      <f7-block-footer>¿Ya tienes una cuenta?<br> <f7-link href="/">¡Ingresa!</f7-link>.</f7-block-footer>
+      <f7-block-footer>¿Ya tienes una cuenta?<br> <f7-link href="/">¡Ingresa!</f7-link></f7-block-footer>
     </f7-list>
   </f7-page>
 </template>
 
 <script>
 // OJO CON ESTO, DEBES CAMBIAR EL NOMBRE
-// import auth from '../auth'
+import Auth from '../../auth'
 
 export default {
   data () {
     return {
-      titulo: 'Registro de Usuario',
       formSignin: {
         username: "",
         email: "",
@@ -112,11 +111,11 @@ export default {
             self.error = ""
             if (this.validateConfirmationPassword()) {
               self.error = ""
-              auth.signin(this, this.formSignin).then((resp) => {
+              Auth.signin(this, this.formSignin).then((resp) => {
                 console.log(resp.status)
                 console.log(resp.data)
                 console.log(Object.keys(resp))
-                router.navigate('/registroExitoso')
+                router.navigate('/registro-exitoso/')
                 console.log('DEBIO IR A REGISTRO_EXITOSO')
               }).catch((error) => {
                 app.dialog.alert("OCURRIO UN ERROR, ENTRO POR CATCH");
@@ -124,19 +123,6 @@ export default {
                 console.log(Object.keys(error))
                 console.log(error)
               })
-              // .then(function(data) {
-              //   // console.log(data)
-              //   // console.log(Object.keys(data))
-              //   if(Object.keys(data) != "errors"){
-              //     self.json = data
-              //     self.$router.push('/registroExitoso')
-              //   }else{
-              //     self.error = "El email esta en uso, prueba con otro email"
-              //   }
-              //   // this.$router.push('/')
-              // }).catch(e => {
-              //   console.log(e);
-              // })
             }else{
               console.log("El password no coincide")
               self.error = "El password no coincide"

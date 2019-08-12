@@ -32,7 +32,7 @@ const auth = (routeTo, routeFrom, resolve, reject) => {
 
 export default [
   {
-    path: '/login',
+    path: '/login/',
     component: Login
   },
   {
@@ -40,19 +40,19 @@ export default [
     component: Signin
   },
   {
-    path: '/', // Cambiar a ruta principal --> ' / '
+    path: '/',
     async: auth
   },
   {
-    path: '/registro-exitoso/', // Cambiar a ruta principal --> ' / '
+    path: '/registro-exitoso/',
     component: RegistroExitoso
   },
   {
-    path: '/contactos/', // Cambiar a ruta principal --> ' / '
+    path: '/contactos/',
     component: Contactos
   },
   {
-    path: '/menu-lateral/', // Cambiar a ruta principal --> ' / '
+    path: '/menu-lateral/',
     component: MenuLateral
   },
   {
