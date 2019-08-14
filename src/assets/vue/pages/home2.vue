@@ -93,12 +93,7 @@ export default {
 
       })
     }
-  },
-  mounted(){
-    console.log(this.$store.state.user.email );
-    console.log(this.$store.getters.userLogeado);
   }
-
 }
 </script>
 

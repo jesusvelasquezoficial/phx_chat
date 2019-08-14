@@ -53,6 +53,8 @@
 <script>
 // Funciones de autenticacion
 import Auth from '../../auth'
+import { mapGetters, mapActions } from 'vuex'
+
 
 export default {
   components: {},
@@ -85,12 +87,19 @@ export default {
                 console.log(resp.data)
                 console.log(Object.keys(resp))
 
+                // esto si esta correcto, aqui escribimos el id del token 
                 window.localStorage.setItem('id_token', resp.data.id)
                 window.localStorage.setItem('v_username', resp.data.username)
                 window.localStorage.setItem('v_email', resp.data.email)
 
-                // window.userToken = resp.data.user.token
-                // localStorage.setItem('token',resp.data.user.token)
+                // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
+                window.userToken = resp.data.id
+                localStorage.setItem('token',resp.data.id)
+                ////////////////////////////////////////////////////////////
+
+                self.$store.dispatch('setUser', resp.data)
+                
+                // recargamos para redireccionar a la pagina principal
                 location.reload()
               }else{
                 console.log(resp.data.errors)
@@ -123,7 +132,8 @@ export default {
     validarEmail: function() {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(this.formLogin.email)
-    }
+    },
+    ...mapActions(['setUser'])
   }
 }
 </script>

@@ -5,29 +5,30 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    user: {
-      id: null,
-      username: null,
-      email: null,
-      logeado: false
-    },
+    user: null,
     count : 10
   },
   getters: {
-    getUser: (state) => {
+    getUserName: (state) => {
       return state.user
     },
     userLogeado: state => state.user.logeado
   },
   actions: {
     userLogged ({commit}, user) {
-      commit('USER_LOGGED', user);
+      commit('USER_LOGGED', user)
+    },
+    setUser: ({commit}, user) => {
+      commit('SET_USER', user) 
     }
     
   },
   mutations: {
     USER_LOGGED (state, user) {
-      state.user = user;
+      state.user = user
+    },
+    SET_USER (state, user) {
+      state.user = user
     },
     increment (state) {
       state.count++

@@ -32,10 +32,6 @@ const auth = (routeTo, routeFrom, resolve, reject) => {
 
 export default [
   {
-    path: '/login/',
-    component: Login
-  },
-  {
     path: '/signin/',
     component: Signin
   },

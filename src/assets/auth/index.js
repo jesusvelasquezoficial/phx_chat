@@ -1,6 +1,6 @@
 const PROTOCOLO = 'https://'
 const PORT = ":4001"
-const HOST = window.location.hostname == 'localhost' ? "localhost" :'10.0.1.7'
+const HOST = window.location.hostname == 'localhost' ? "localhost" :'192.168.1.3'
 const URL = HOST+PORT
 // const URL = '192.168.8.107'+PORT
 const LOGIN_URL = PROTOCOLO+URL+"/api/login"

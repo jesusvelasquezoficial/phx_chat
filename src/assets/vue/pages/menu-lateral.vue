@@ -20,12 +20,13 @@
 </template>
 <script>
 import Auth from '../../auth'
+import { mapGetters, mapState } from 'vuex'
 
 export default {
   components: {},
   data () {
     return {
-      nombreUsuario: 'Nombre Apelldio',
+      nombreUsuario: this.$store.state.user,
       correoUsuario: 'Correo@gmail.com'
     }
   },
@@ -34,6 +35,15 @@ export default {
       Auth.signOut(this)
       location.reload()
     }
+  },
+  computed: {
+    // OBJETO: usuario actual
+    mi(){
+      return this.$store.state.user
+    },
+    ...mapState(['user']),
+    ...mapGetters(['getUserName'])
+
   }
 };
 </script>
