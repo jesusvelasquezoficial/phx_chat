@@ -4,34 +4,28 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  // strict: true,
   state: {
-    user: null,
-    count : 10
+    user: {
+      id: 1,
+      username: 'Nombre Apellido',
+      email: 'Correo@gmail.com'
+    }
   },
   getters: {
-    getUserName: state => {
+    getUser: (state) => {
       return state.user
     },
-    userLogeado: state => state.user.logeado
+    getUserName: state => state.user.username
   },
   actions: {
-    userLogged ({commit}, user) {
-      commit('USER_LOGGED', user)
-    },
-    setUser: ({commit}, user) => {
-      commit('SET_USER', user) 
+     setUser: async function (context, user){
+      context.commit('SET_USER', user)
     }
-    
   },
   mutations: {
-    USER_LOGGED (state, user) {
-      state.user = user
-    },
-    SET_USER (state, user) {
-      state.user = user
-    },
-    increment (state) {
-      state.count++
+    SET_USER (state, param) { 
+      state.user = param 
     }
   }
 })

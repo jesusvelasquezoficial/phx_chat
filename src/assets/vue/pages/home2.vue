@@ -25,6 +25,9 @@
     </f7-list>
     <!-- Lista de conversaciones -->
     <f7-list class="components-list searchbar-found no-margin-top text-align-left">
+      <f7-list-item>
+        {{getUserName}} {{ getUser }}
+      </f7-list-item>
       <f7-list-item link="/chat/" title="Jesus Velasquez" footer="esto es un mensaje de prueba." badge="5" badge-color="green">
         <img src="https://placeimg.com/80/80/people/1" style="width: 40px; height: 40px; border-radius: 50%" slot="media" border-color="white">
       </f7-list-item>
@@ -47,9 +50,11 @@
 </template>
 
 <script>
+import { mapGetters, mapState } from 'vuex';
 // Api para conectarse al servidor
 // import api from '../api'
 // Funciones de autenticacion
+import Auth from '../../auth'
 // import auth from '../auth'
 
 export default {
@@ -93,6 +98,16 @@ export default {
 
       })
     }
+  },
+  computed: {
+    ...mapGetters(['getUserName', 'getUser']),
+    // ...mapState(['user'])
+  },
+  mounted() {
+    // this.$store.dispatch('setUser', Auth.user)
+    console.log(this.$store.state.user);
+    console.log(Auth.user);
+    
   }
 }
 </script>

@@ -20,29 +20,30 @@
 </template>
 <script>
 import Auth from '../../auth'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 
 export default {
   components: {},
   data () {
     return {
-      nombreUsuario: this.$store.getters.user,
-      correoUsuario: 'Correo@gmail.com'
+      nombreUsuario: '',
+      correoUsuario: ''
     }
   },
   methods:{
     Salir: () => {
       Auth.signOut(this)
       location.reload()
-    }
+    },
+    ...mapActions(['setUser'])
   },
   computed: {
     // OBJETO: usuario actual
     mi(){
       return this.$store.state.user
     },
-    ...mapState(['user']),
     ...mapGetters(['getUserName'])
+    
 
   }
 };

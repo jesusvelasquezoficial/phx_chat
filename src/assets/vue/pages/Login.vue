@@ -97,9 +97,9 @@ export default {
                 localStorage.setItem('token',resp.data.id)
                 ////////////////////////////////////////////////////////////
 
+                console.log(this.$store.state.user);
                 this.$store.dispatch('setUser', resp.data.data)
-                console.log(this.$store.state.user.email)                
-                
+                console.log(this.$store.state.user)
                 // recargamos para redireccionar a la pagina principal
                 location.reload()
               }else{
