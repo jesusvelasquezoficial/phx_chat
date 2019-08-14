@@ -9,7 +9,7 @@ export default new Vuex.Store({
     count : 10
   },
   getters: {
-    getUserName: (state) => {
+    getUserName: state => {
       return state.user
     },
     userLogeado: state => state.user.logeado

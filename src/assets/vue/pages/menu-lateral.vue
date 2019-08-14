@@ -5,7 +5,7 @@
         <img src="https://placeimg.com/80/80/people/1" slot="media" style="width: 40px; height: 40px; border-radius: 50%" >
       </f7-list-item>
     </f7-list>
-    <f7-block-header>Ajustes</f7-block-header>
+    <f7-block-header>Ajustes {{ getUserName }} </f7-block-header>
     <f7-list>
       <!-- Cerrar Sesion -->
       <f7-link @click="Salir" text-color="red" class="item-divider">Cerrar Sesión</f7-link>
@@ -26,7 +26,7 @@ export default {
   components: {},
   data () {
     return {
-      nombreUsuario: this.$store.state.user,
+      nombreUsuario: this.$store.getters.user,
       correoUsuario: 'Correo@gmail.com'
     }
   },

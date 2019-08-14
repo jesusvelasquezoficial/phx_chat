@@ -53,7 +53,7 @@
 <script>
 // Funciones de autenticacion
 import Auth from '../../auth'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 
 
 export default {
@@ -78,7 +78,7 @@ export default {
         console.log(this.validarCampos())
         self.error = ""
         if (this.validarEmail()) {
-            console.log(this.validarEmail())
+          console.log(this.validarEmail())
             self.error = ""
             Auth.login(this, self.formLogin)
             .then((resp) => {
@@ -97,7 +97,8 @@ export default {
                 localStorage.setItem('token',resp.data.id)
                 ////////////////////////////////////////////////////////////
 
-                self.$store.dispatch('setUser', resp.data)
+                this.$store.dispatch('setUser', resp.data.data)
+                console.log(this.$store.state.user.email)                
                 
                 // recargamos para redireccionar a la pagina principal
                 location.reload()
