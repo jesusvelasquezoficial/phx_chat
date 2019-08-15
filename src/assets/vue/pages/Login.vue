@@ -81,46 +81,50 @@ export default {
         if (this.validarEmail()) {
           console.log(this.validarEmail())
             self.error = ""
-            Auth.login(this, self.formLogin)
-            .then((resp) => {
-              if (Object.keys(resp.data) != "errors"){
-                console.log(resp.status)
-                console.log(resp.data)
-                console.log(Object.keys(resp))
+            // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
+            this.$store.dispatch('LOGIN', this.formLogin)
+            console.log(this.$store.state);
+            
 
-                // esto si esta correcto, aqui escribimos el id del token 
-                window.localStorage.setItem('id_token', resp.data.id)
-                window.localStorage.setItem('v_username', resp.data.username)
-                window.localStorage.setItem('v_email', resp.data.email)
+            // Auth.login(this, self.formLogin)
+            // .then((resp) => {
+            //   if (Object.keys(resp.data) != "errors"){
+            //     console.log(resp.status)
+            //     console.log(resp.data)
+            //     console.log(Object.keys(resp))
 
-                // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
-                window.userToken = resp.data.id
-                localStorage.setItem('token',resp.data.id)
-                ////////////////////////////////////////////////////////////
+            //     // esto si esta correcto, aqui escribimos el id del token 
+            //     localStorage.setItem('id_token', resp.data.id)
+            //     localStorage.setItem('v_username', resp.data.username)
+            //     localStorage.setItem('v_email', resp.data.email)
 
-                console.log(this.$store.state.user);
-                this.login(resp.data.data)
-                console.log(this.$store.state.user)
-                // recargamos para redireccionar a la pagina principal
-                // location.reload()
-              }else{
-                console.log(resp.data.errors)
-                self.error = resp.data.errors
-              }
+            //     // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
+            //     window.userToken = resp.data.id
+            //     localStorage.setItem('token',resp.data.id)
+            //     ////////////////////////////////////////////////////////////
+            //     console.log(resp.data.data);
+            //     this.login(this, resp.data.data)
+            //     console.log(this.$store.state.user)
+            //     // recargamos para redireccionar a la pagina principal
+            //     // location.reload()
+            //   }else{
+            //     console.log(resp.data.errors)
+            //     self.error = resp.data.errors
+            //   }
               
-            }).catch((error) => {
-              // network error
-              console.log(error.config)
-              console.log(error.request)
-              console.log(error.response)
-              console.log(error.isAxiosError)
-              console.log(error.toJSON)
-              // app.dialog.alert(err)
-              app.dialog.alert("Usted no esta registrador")
-              self.error = "Usted no esta registrador"
-              console.log(Object.keys(error))
-              console.log(error)
-            })
+            // }).catch((error) => {
+            //   // network error
+            //   console.log(error.config)
+            //   console.log(error.request)
+            //   console.log(error.response)
+            //   console.log(error.isAxiosError)
+            //   console.log(error.toJSON)
+            //   // app.dialog.alert(err)
+            //   app.dialog.alert("Usted no esta registrador")
+            //   self.error = "Usted no esta registrador"
+            //   console.log(Object.keys(error))
+            //   console.log(error)
+            // })
         }else{
           self.error = "Email invalido"
         }

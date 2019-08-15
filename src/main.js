@@ -2,10 +2,10 @@
 import Vue from 'vue';
 
 // Import Axios (Json)
-import axios from 'axios'
+import Axios from 'axios'
 import VueAxios from 'vue-axios'
- 
-Vue.use(VueAxios, axios)
+
+Vue.use(VueAxios, Axios)
 
 // Import Framework7
 import Framework7 from 'framework7/framework7.esm.bundle';
@@ -37,6 +37,23 @@ import app from './main.vue';
 // Import Vuex Storage
 import store from './assets/vuex/storage.js';
 
+
+//
+// let socket = new Socket("/socket", { params: { token: window.userToken } })
+// socket.connect()
+
+// Vue.config.productionTip = false
+
+// Axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With,content-type,authorization'
+Axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
+// Axios.defaults.headers.common['withCredentials'] = 'X-Requested-With,content-type,authorization'
+// Axios.defaults.headers.common['Access-Control-Allow-Credentials'] = true
+// Axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*.*'
+
+// Axios.defaults.baseURL = '0.0.0.0'
+// axios.defaults.headers.common['Authorization'] = AUTH_TOKEN
+// Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;application/json'
+
 // Different F7-Vue plugin initialization with f7 v3.0
 Framework7.use(Framework7Vue);
 
@@ -55,5 +72,5 @@ export default new Vue({
       FastClick.attach(document.body);
     });
   },
-  
+
 });

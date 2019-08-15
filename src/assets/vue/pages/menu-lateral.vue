@@ -1,7 +1,7 @@
 <template>
   <f7-page>
     <f7-list class="no-margin-vertical">
-      <f7-list-item class="padding-vertical" :title="nombreUsuario" :footer="correoUsuario" link="/about/" panel-close> 
+      <f7-list-item class="padding-vertical" :title="this.$store.state.user.username" :footer="this.$store.state.user.email" link="/about/" panel-close> 
         <img src="https://placeimg.com/80/80/people/1" slot="media" style="width: 40px; height: 40px; border-radius: 50%" >
       </f7-list-item>
     </f7-list>
