@@ -68,6 +68,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['login']),
     Ingresar: function (){
       const self = this
       const app = self.$f7
@@ -98,10 +99,10 @@ export default {
                 ////////////////////////////////////////////////////////////
 
                 console.log(this.$store.state.user);
-                this.$store.dispatch('setUser', resp.data.data)
+                this.login(resp.data.data)
                 console.log(this.$store.state.user)
                 // recargamos para redireccionar a la pagina principal
-                location.reload()
+                // location.reload()
               }else{
                 console.log(resp.data.errors)
                 self.error = resp.data.errors
@@ -133,8 +134,7 @@ export default {
     validarEmail: function() {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(this.formLogin.email)
-    },
-    ...mapActions(['setUser'])
+    }
   }
 }
 </script>
