@@ -106,8 +106,10 @@ export default {
   mounted() {
     // this.$store.dispatch('setUser', Auth.user)
     console.log(this.$store.state.user);
+    console.log(this.$store.state.token);
     console.log(Auth.user);
-    console.log(localStorage.getItem('v_username'));
+    let tok = localStorage.getItem('id_tokent')
+    console.log(tok);
     
     
     

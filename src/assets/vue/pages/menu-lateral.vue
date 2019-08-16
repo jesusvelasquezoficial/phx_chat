@@ -1,11 +1,11 @@
 <template>
   <f7-page>
     <f7-list class="no-margin-vertical">
-      <f7-list-item class="padding-vertical" :title="this.$store.state.user.username" :footer="this.$store.state.user.email" link="/about/" panel-close> 
+      <f7-list-item class="padding-vertical" :title="nombreUsuario" :footer="correoUsuario" link="/about/" panel-close> 
         <img src="https://placeimg.com/80/80/people/1" slot="media" style="width: 40px; height: 40px; border-radius: 50%" >
       </f7-list-item>
     </f7-list>
-    <f7-block-header>Ajustes {{ getUserName }} </f7-block-header>
+    <f7-block-header>Ajustes {{ getUserName }} {{  }} </f7-block-header>
     <f7-list>
       <!-- Cerrar Sesion -->
       <f7-link @click="Salir" text-color="red" class="item-divider">Cerrar Sesión</f7-link>
@@ -26,7 +26,7 @@ export default {
   components: {},
   data () {
     return {
-      nombreUsuario: '',
+      nombreUsuario: localStorage.getItem("v_username"),
       correoUsuario: ''
     }
   },
@@ -40,11 +40,16 @@ export default {
   computed: {
     // OBJETO: usuario actual
     mi(){
-      return this.$store.state.user
+      return localStorage.getItem('id_token')
     },
     ...mapGetters(['getUserName'])
     
 
+  },
+  created(){
+    console.log(localStorage.getItem('id_token'));
+    this.getUserName
+    
   }
 };
 </script>

@@ -68,7 +68,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['login']),
+    ...mapActions(['LOGIN']),
     Ingresar: function (){
       const self = this
       const app = self.$f7
@@ -82,9 +82,9 @@ export default {
           console.log(this.validarEmail())
             self.error = ""
             // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
-            this.$store.dispatch('LOGIN', this.formLogin)
-            console.log(this.$store.state);
-            
+            this.LOGIN(this.formLogin)
+            console.log(this.$store.state.user);
+             
 
             // Auth.login(this, self.formLogin)
             // .then((resp) => {
