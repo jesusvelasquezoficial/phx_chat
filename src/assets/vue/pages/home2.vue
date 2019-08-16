@@ -25,9 +25,6 @@
     </f7-list>
     <!-- Lista de conversaciones -->
     <f7-list class="components-list searchbar-found no-margin-top text-align-left">
-      <f7-list-item>
-        {{getUserName}} {{ getUser }} 
-      </f7-list-item>
       <f7-list-item link="/chat/" title="Jesus Velasquez" footer="esto es un mensaje de prueba." badge="5" badge-color="green">
         <img src="https://placeimg.com/80/80/people/1" style="width: 40px; height: 40px; border-radius: 50%" slot="media" border-color="white">
       </f7-list-item>
@@ -50,7 +47,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { mapState } from 'vuex';
 // Api para conectarse al servidor
 // import api from '../api'
 // Funciones de autenticacion
@@ -100,19 +97,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getUserName', 'getUser']),
+    ...mapState(['user']),
     // ...mapState(['user'])
   },
   mounted() {
     // this.$store.dispatch('setUser', Auth.user)
-    console.log(this.$store.state.user);
-    console.log(this.$store.state.token);
-    console.log(Auth.user);
-    let tok = localStorage.getItem('id_tokent')
-    console.log(tok);
-    
-    
-    
+    console.log(this.$store.state.user)
+    console.log(Auth.user)
   }
 }
 </script>

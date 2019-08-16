@@ -12,7 +12,7 @@
         <f7-view url="/panel-left/" links-view=".view-main" />
     </f7-panel>
     <!-- Vista principal -->
-    <f7-view url="/" :main="true" class="ios-edges" color-theme='deeporange' theme-dark></f7-view>
+    <f7-view url="/" main color-theme='deeporange' theme-dark></f7-view>
   </f7-app>
 </template>
 <script>
@@ -41,7 +41,7 @@ export default {
       }
     }
   },
-    on: {
+  on: {
     init: function () {
     console.log('App initialized');
     }

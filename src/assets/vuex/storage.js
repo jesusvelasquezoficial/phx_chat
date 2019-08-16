@@ -8,48 +8,51 @@ Vue.use(Vuex, Axios);
 export default new Vuex.Store({
   // strict: true,
   state: {
-    user: null,
+    user: JSON.parse(localStorage.getItem('user')) || null,
     token: localStorage.getItem('id_token') || null
   },
   getters: {
     getUser: state => {
-      return state.token
-    },
-    getUserName: (state) => {
-      console.log(state.user);
-      console.log(state.token);
-      return state
+      return state.user
     }
   },
   actions: {
     LOGIN({commit}, payload){
-      Axios.post('https://192.168.1.3:4001/api/login', payload)
-      .then((resp, status) => {
-        let data = resp.data.data
-        localStorage.setItem('id_token', data.id)
-        localStorage.setItem('v_username', data.username)
-        localStorage.setItem('v_email', data.email)
-
-        // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
-        window.userToken = data.id
-        localStorage.setItem('token', data.id)
-        commit('LOGIN', data)
-        let tok = localStorage.getItem("id_token")
-        console.log(data);
-        console.log(tok);
-        console.log(localStorage.getItem("id_token"))
-        
-        // location.reload()
-        
+      // retornamos una promesa
+      return new Promise((resolve, reject )=> {
+        Axios.post('login', payload).then( (response) => {
+          if (response.status === 201) {
+            // almacenamos los datos JSON de la sesion
+            let data = response.data.data
+            
+            localStorage.setItem('id_token', data.id)
+            localStorage.setItem('v_username', data.username)
+            localStorage.setItem('v_email', data.email)
+    
+            // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
+            window.userToken = data.id
+            localStorage.setItem('token', data.id)
+            localStorage.setItem('user', JSON.stringify(data))
+            // ejecutamos la mutacion
+            commit('LOGIN', data)
+            console.log(data);
+            resolve(true)
+            // location.reload()
+          }
+          else{
+            // devolvemos error JSON
+            reject(response.data.errors)
+          }
+        })
+        // devolvemos el error inesperado SERVER
+        .catch(e => reject(e))
       })
-      .catch(e => console.log(e))
     }
   },
   mutations: {
     LOGIN(state, payload) {
-      state.user = payload
-      console.log(state.user);
-      console.log(state.token);
+      // almacenamos los datos de la sesion en user
+      state.user = JSON.stringify(data)
     }
   }
   // modules: {

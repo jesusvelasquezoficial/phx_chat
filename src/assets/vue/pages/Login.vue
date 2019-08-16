@@ -70,66 +70,23 @@ export default {
   methods: {
     ...mapActions(['LOGIN']),
     Ingresar: function (){
-      const self = this
-      const app = self.$f7
-      const router = self.$f7router
-      console.log(self.formLogin.email)
-      console.log(self.formLogin.password)
+      console.log(this.formLogin.email)
+      console.log(this.formLogin.password)
+      this.error = ""
       if (this.validarCampos()) {
-        console.log(this.validarCampos())
-        self.error = ""
         if (this.validarEmail()) {
-          console.log(this.validarEmail())
-            self.error = ""
             // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
-            this.LOGIN(this.formLogin)
-            console.log(this.$store.state.user);
-             
-
-            // Auth.login(this, self.formLogin)
-            // .then((resp) => {
-            //   if (Object.keys(resp.data) != "errors"){
-            //     console.log(resp.status)
-            //     console.log(resp.data)
-            //     console.log(Object.keys(resp))
-
-            //     // esto si esta correcto, aqui escribimos el id del token 
-            //     localStorage.setItem('id_token', resp.data.id)
-            //     localStorage.setItem('v_username', resp.data.username)
-            //     localStorage.setItem('v_email', resp.data.email)
-
-            //     // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
-            //     window.userToken = resp.data.id
-            //     localStorage.setItem('token',resp.data.id)
-            //     ////////////////////////////////////////////////////////////
-            //     console.log(resp.data.data);
-            //     this.login(this, resp.data.data)
-            //     console.log(this.$store.state.user)
-            //     // recargamos para redireccionar a la pagina principal
-            //     // location.reload()
-            //   }else{
-            //     console.log(resp.data.errors)
-            //     self.error = resp.data.errors
-            //   }
-              
-            // }).catch((error) => {
-            //   // network error
-            //   console.log(error.config)
-            //   console.log(error.request)
-            //   console.log(error.response)
-            //   console.log(error.isAxiosError)
-            //   console.log(error.toJSON)
-            //   // app.dialog.alert(err)
-            //   app.dialog.alert("Usted no esta registrador")
-            //   self.error = "Usted no esta registrador"
-            //   console.log(Object.keys(error))
-            //   console.log(error)
-            // })
+            this.LOGIN(this.formLogin).then(response => {
+              // console.log(response)
+              // location.reload()
+            }).catch(error => {
+              this.error = error
+            })
         }else{
-          self.error = "Email invalido"
+          this.error = "Email invalido"
         }
       }else{
-        self.error = "Campos vacios"
+        this.error = "Campos vacios"
       }
     },
     validarCampos: function() {
@@ -139,6 +96,10 @@ export default {
       var re = /^(([^<>()\[\]\\.,:\s@"]+(\.[^<>()\[\]\\.,:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       return re.test(this.formLogin.email)
     }
+  },
+  mounted(){
+    localStorage.removeItem('user');
+    localStorage.clear()
   }
 }
 </script>
