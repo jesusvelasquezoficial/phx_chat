@@ -38,8 +38,7 @@ export default new Vuex.Store({
             console.log(data);
             resolve(true)
             // location.reload()
-          }
-          else{
+          }else{
             // devolvemos error JSON
             reject(response.data.errors)
           }
@@ -52,7 +51,7 @@ export default new Vuex.Store({
   mutations: {
     LOGIN(state, payload) {
       // almacenamos los datos de la sesion en user
-      state.user = JSON.stringify(data)
+      state.user = JSON.stringify(payload)
     }
   }
   // modules: {

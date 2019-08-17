@@ -77,7 +77,7 @@ export default {
         if (this.validarEmail()) {
             // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
             this.LOGIN(this.formLogin).then(response => {
-              // console.log(response)
+              console.log(response)
               // location.reload()
             }).catch(error => {
               this.error = error

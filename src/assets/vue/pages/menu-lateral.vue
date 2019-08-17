@@ -42,7 +42,8 @@ export default {
     mi(){
       return localStorage.getItem('id_token')
     },
-    ...mapGetters(['getUser'])
+    ...mapGetters(['getUser']),
+    ...mapState(['user'])
     
 
   }

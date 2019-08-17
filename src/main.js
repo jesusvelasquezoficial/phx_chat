@@ -36,7 +36,6 @@ import app from './main.vue';
 
 // Import Vuex Storage
 import store from './assets/vuex/storage.js';
-import routes from './routes.js';
 
 
 
@@ -48,7 +47,7 @@ import routes from './routes.js';
 
 // Axios.defaults.headers.common['Access-Control-Allow-Headers'] = 'X-Requested-With,content-type,authorization'
 Axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
-Axios.defaults.baseURL = 'https://10.0.1.7:4001/api/';
+Axios.defaults.baseURL = 'https://192.168.1.4:4001/api/';
 // Axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // Axios.defaults.headers.common['withCredentials'] = 'X-Requested-With,content-type,authorization'
