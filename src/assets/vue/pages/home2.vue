@@ -54,6 +54,8 @@ import { mapState } from 'vuex';
 import Auth from '../../auth'
 // import auth from '../auth'
 
+import { Socket } from 'phoenix-socket'
+
 export default {
   components: {},
   data () {
@@ -104,6 +106,19 @@ export default {
     // this.$store.dispatch('setUser', Auth.user)
     console.log(this.$store.state.user)
     console.log(Auth.user)
+    // Connect to the websocket server
+    let socket = new Socket("wss://10.0.1.7:4001/socket",{
+        params: {
+          token: localStorage.getItem('token')
+        }
+      })
+    socket.connect();
+      // Join in the links channel
+    this.channel = socket.channel("user", {});
+    this.channel.join()
+
+    .receive("ok", resp => { console.log("User Joined successfully", resp) })
+    .receive("error", resp => { console.log("User Unable to join", resp) })
   }
 }
 </script>
