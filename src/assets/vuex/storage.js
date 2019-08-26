@@ -8,7 +8,7 @@ Vue.use(Vuex, Axios);
 export default new Vuex.Store({
   // strict: true,
   state: {
-    user: JSON.parse(localStorage.getItem('user')) || null,
+    user: JSON.parse(localStorage.getItem('user')) || '',
     token: localStorage.getItem('id_token') || null
   },
   getters: {
@@ -30,14 +30,14 @@ export default new Vuex.Store({
             localStorage.setItem('v_email', data.email)
     
             // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
-            window.userToken = data.id
-            localStorage.setItem('token', data.id)
+            window.userToken = data.token
+            localStorage.setItem('token', data.token)
             localStorage.setItem('user', JSON.stringify(data))
             // ejecutamos la mutacion
             commit('LOGIN', data)
             console.log(data);
             resolve(true)
-            // location.reload()
+            location.reload()
           }else{
             // devolvemos error JSON
             reject(response.data.errors)

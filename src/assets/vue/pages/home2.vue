@@ -25,15 +25,18 @@
     </f7-list>
     <!-- Lista de conversaciones -->
     <f7-list class="components-list searchbar-found no-margin-top text-align-left">
-      <f7-list-item link="/chat/" title="Jesus Velasquez" footer="esto es un mensaje de prueba." badge="5" badge-color="green">
-        <img src="https://placeimg.com/80/80/people/1" style="width: 40px; height: 40px; border-radius: 50%" slot="media" border-color="white">
+      <f7-list-item link="/chat/" title="Phoenix" footer="Jesus Velasquez: hola, como estan?" badge="5" badge-color="green" maxlength="5">
+        <img src="../../images/logo.png" style="width: 40px; height: 40px; border-radius: 50%" slot="media" border-color="white">
       </f7-list-item>
-      <f7-list-item link="/chat/" title="Fernando Agreda" footer="esto es un mensaje de prueba." badge="2" badge-color="green">
+      <!-- <f7-list-item link="/chat/" title="Jesus Velasquez" footer="esto es un mensaje de prueba." badge="5" badge-color="green">
+        <img src="https://placeimg.com/80/80/people/1" style="width: 40px; height: 40px; border-radius: 50%" slot="media" border-color="white">
+      </f7-list-item> -->
+      <!-- <f7-list-item link="/chat/" title="Fernando Agreda" footer="esto es un mensaje de prueba." badge="2" badge-color="green">
         <img src="https://placeimg.com/80/80/people/2" style="width: 40px; height: 40px; border-radius: 50%" slot="media">
       </f7-list-item>
       <f7-list-item link="/chat/" title="Jairo Moncada" footer="esto es un mensaje de prueba." badge="8" badge-color="green">
         <img src="https://placeimg.com/80/80/people/3" style="width: 40px; height: 40px; border-radius: 50%" slot="media">
-      </f7-list-item>
+      </f7-list-item> -->
       <!-- <f7-list-item link="/contactos/" title="Todos los Contactos"></f7-list-item> -->
       <!-- <f7-list-item link="/registro-exitoso/" title="Registro Exitoso"></f7-list-item> -->
     </f7-list>
@@ -53,6 +56,7 @@ import { mapState } from 'vuex';
 // Funciones de autenticacion
 import Auth from '../../auth'
 // import auth from '../auth'
+import {Socket} from 'phoenix-socket'
 
 export default {
   components: {},
@@ -104,6 +108,16 @@ export default {
     // this.$store.dispatch('setUser', Auth.user)
     console.log(this.$store.state.user)
     console.log(Auth.user)
+    console.log(localStorage.getItem('token'));
+    
+    let socket = new Socket("wss://192.168.1.7:4001/socket", {params: {token: localStorage.getItem('token')}})
+    socket.connect()
+
+    let channel = socket.channel("user:join", {})
+
+    channel.join()
+      .receive("ok", resp => { console.log("Joined successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join", resp) })
   }
 }
 </script>
