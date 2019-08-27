@@ -194,7 +194,7 @@ export default {
       self.messages = self.$refs.messages.f7Messages;
     })
     console.log(localStorage.getItem('token'))
-    self.socket = new Socket("wss://192.168.1.7:4001/socket", {params: {token: localStorage.getItem('token')}})
+    self.socket = new Socket("wss://192.168.42.45:4001/socket", {params: {token: localStorage.getItem('token')}})
     self.socket.connect()
 
     self.channel = self.socket.channel("conversation:lobby", {})

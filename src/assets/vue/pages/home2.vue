@@ -110,7 +110,7 @@ export default {
     console.log(Auth.user)
     console.log(localStorage.getItem('token'));
     
-    let socket = new Socket("wss://192.168.1.7:4001/socket", {params: {token: localStorage.getItem('token')}})
+    let socket = new Socket("wss://192.168.42.45:4001/socket", {params: {token: localStorage.getItem('token')}})
     socket.connect()
 
     let channel = socket.channel("user:join", {})
