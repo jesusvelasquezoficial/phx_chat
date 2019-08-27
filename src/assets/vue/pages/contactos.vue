@@ -43,7 +43,7 @@ export default {
   },
   mounted() {
     // Listar contactos del servidor
-    this.axios.post('https://10.0.1.7:4001/api/listarUsuarios').then(res => {
+    this.axios.post('https://192.168.8.104:4001/api/listarUsuarios').then(res => {
       // Estamos enviando el Password_hash, dar formato y limitar la carga de usuarios a 50,
       // O automatizar la carga de usuarios por scroll >>>> framework7 lo hace..!
       this.contactos = res.data.data //<<<<<<<<<<<<<<<<<<<<<

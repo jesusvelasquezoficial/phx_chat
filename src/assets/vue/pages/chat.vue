@@ -1,6 +1,6 @@
 <template>
   <f7-page>
-    <f7-navbar title="Messsages" back-link=""></f7-navbar>
+    <f7-navbar title="Phoenix" back-link=""></f7-navbar>
 
     <f7-messagebar
       :placeholder="placeholder"
@@ -45,7 +45,7 @@
 
     <f7-messages ref="messages">
       <f7-messages-title>
-        <b>Sunday, Feb 9,</b> 12:58
+        <b>Lunes, Ago 25,</b> 9:58
       </f7-messages-title>
       <f7-message
         v-for="(message, index) in messagesData"
@@ -74,6 +74,8 @@
   </f7-page>
 </template>
 <script>
+import {Socket} from 'phoenix-socket'
+
 export default {
   components: {},
   data() {
@@ -170,6 +172,8 @@ export default {
         "Need to think about it",
         "Amazing!!!"
       ],
+      socket: '',
+      channel: '',
       responseInProgress: false
     };
   },
@@ -184,11 +188,27 @@ export default {
     }
   },
   mounted() {
-    const self = this;
+    const self = this
     self.$f7ready(() => {
       self.messagebar = self.$refs.messagebar.f7Messagebar;
       self.messages = self.$refs.messages.f7Messages;
-    });
+    })
+    console.log(localStorage.getItem('token'))
+    self.socket = new Socket("wss://192.168.8.104:4001/socket", {params: {token: localStorage.getItem('token')}})
+    self.socket.connect()
+
+    self.channel = self.socket.channel("conversation:lobby", {})
+
+    self.channel.on("new_msg", payload => {
+        self.messagesData.push(...payload.body);
+        console.log(payload);
+        console.log(self.messagesData);
+        
+      })
+
+    self.channel.join()
+      .receive("ok", resp => { console.log("Joined Phoenix successfully", resp) })
+      .receive("error", resp => { console.log("Unable to join Phoenix", resp) })
   },
   methods: {
     isFirstMessage(message, index) {
@@ -274,31 +294,32 @@ export default {
       // Focus area
       if (text.length) self.messagebar.focus();
       // Send message
-      self.messagesData.push(...messagesToSend);
+      // self.messagesData.push(...messagesToSend);
+      self.channel.push("new_msg", {body: messagesToSend})
 
       // Mock response
-      if (self.responseInProgress) return;
-      self.responseInProgress = true;
-      setTimeout(() => {
-        const answer =
-          self.answers[Math.floor(Math.random() * self.answers.length)];
-        const person =
-          self.people[Math.floor(Math.random() * self.people.length)];
-        self.typingMessage = {
-          name: person.name,
-          avatar: person.avatar
-        };
-        setTimeout(() => {
-          self.messagesData.push({
-            text: answer,
-            type: "received",
-            name: person.name,
-            avatar: person.avatar
-          });
-          self.typingMessage = null;
-          self.responseInProgress = false;
-        }, 4000);
-      }, 1000);
+      // if (self.responseInProgress) return;
+      // self.responseInProgress = true;
+      // setTimeout(() => {
+      //   const answer =
+      //     self.answers[Math.floor(Math.random() * self.answers.length)];
+      //   const person =
+      //     self.people[Math.floor(Math.random() * self.people.length)];
+      //   self.typingMessage = {
+      //     name: person.name,
+      //     avatar: person.avatar
+      //   };
+      //   setTimeout(() => {
+      //     self.messagesData.push({
+      //       text: answer,
+      //       type: "received",
+      //       name: person.name,
+      //       avatar: person.avatar
+      //     });
+      //     self.typingMessage = null;
+      //     self.responseInProgress = false;
+      //   }, 4000);
+      // }, 1000);
     }
   }
 };

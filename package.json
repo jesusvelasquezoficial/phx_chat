@@ -55,6 +55,7 @@
     "framework7-vue": "^4.4.0",
     "loglevel": "^1.4.1",
     "material-design-icons": "^3.0.1",
+    "phoenix": "^1.4.9",
     "phoenix-socket": "^1.2.3",
     "vue": "^2.6.10",
     "vue-axios": "^2.1.4",

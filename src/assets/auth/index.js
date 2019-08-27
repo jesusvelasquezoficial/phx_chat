@@ -1,7 +1,7 @@
 const PROTOCOLO = 'https://'
 const PORT = ":4001"
 // const HOST = location.hostname == 'localhost' ? "localhost" :'192.168.1.3'
-const HOST = location.hostname == 'localhost' ? "localhost" :'10.0.1.7'
+const HOST = location.hostname == 'localhost' ? "localhost" :'192.168.8.104'
 const URL = HOST+PORT
 const LOGIN_URL = PROTOCOLO+URL+"/api/login"
 const SIGNIN_URL = PROTOCOLO+URL+"/api/signin"
