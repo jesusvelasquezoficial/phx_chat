@@ -1,7 +1,8 @@
 const PROTOCOLO = 'https://'
-const PORT = ":433"
+// const PORT = ":433"
+const PORT = ""
 // const HOST = location.hostname == 'localhost' ? "localhost" :'192.168.1.3'
-const HOST = location.hostname == 'mighty-escarpment-88517.herokuapp.com'
+const HOST ='mighty-escarpment-88517.herokuapp.com'
 const URL = HOST+PORT
 const LOGIN_URL = PROTOCOLO+URL+"/api/login"
 const SIGNIN_URL = PROTOCOLO+URL+"/api/signin"
