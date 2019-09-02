@@ -194,7 +194,7 @@ export default {
       self.messages = self.$refs.messages.f7Messages;
     })
     console.log(localStorage.getItem('token'))
-    self.socket = new Socket("wss://www.phoenixserver.ml/socket", {params: {token: localStorage.getItem('token')}})
+    self.socket = new Socket("wss://phoenixserver.ml:443/socket", {params: {token: localStorage.getItem('token')}})
     self.socket.connect()
 
     self.channel = self.socket.channel("conversation:lobby", {})

@@ -50,10 +50,10 @@ Axios.defaults.headers.common['Content-Type'] = 'application/json;charset=UTF-8'
 // Axios.defaults.baseURL = 'https://localhost:4001/api/';
 Axios.defaults.baseURL = 'https://www.phoenixserver.ml/api';
 // Axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+// Axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // Axios.defaults.headers.common['withCredentials'] = 'X-Requested-With,content-type,authorization'
 // Axios.defaults.headers.common['Access-Control-Allow-Credentials'] = true
-// Axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+Axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 
 // Axios.defaults.baseURL = '0.0.0.0'
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN

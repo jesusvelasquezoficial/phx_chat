@@ -124,7 +124,7 @@ export default {
                 console.log(error)
                 console.log(error.request)
                 console.log(error.response)
-                console.log(error.toJSON)
+                console.log(error.isAxiosError)
               })
             }else{
               console.log("El password no coincide")
