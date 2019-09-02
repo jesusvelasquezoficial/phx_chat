@@ -112,7 +112,7 @@ export default {
     console.log(Auth.user)
     console.log(localStorage.getItem('token'));
     
-    let socket = new Socket("wss://mighty-escarpment-88517.herokuapp.com:433/socket", {params: {token: localStorage.getItem('token')}})
+    let socket = new Socket("wss://www.phoenixserver.ml/socket", {params: {token: localStorage.getItem('token')}})
 
     let channel = socket.channel("users:join", {})
     let presence = new Presence(channel)

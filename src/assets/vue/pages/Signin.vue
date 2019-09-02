@@ -122,6 +122,9 @@ export default {
                 self.error = "OCURRIO UN ERROR"
                 console.log(Object.keys(error))
                 console.log(error)
+                console.log(error.request)
+                console.log(error.response)
+                console.log(error.toJSON)
               })
             }else{
               console.log("El password no coincide")

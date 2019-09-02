@@ -194,7 +194,7 @@ export default {
       self.messages = self.$refs.messages.f7Messages;
     })
     console.log(localStorage.getItem('token'))
-    self.socket = new Socket("wss://mighty-escarpment-88517.herokuapp.com:433/socket", {params: {token: localStorage.getItem('token')}})
+    self.socket = new Socket("wss://www.phoenixserver.ml/socket", {params: {token: localStorage.getItem('token')}})
     self.socket.connect()
 
     self.channel = self.socket.channel("conversation:lobby", {})
