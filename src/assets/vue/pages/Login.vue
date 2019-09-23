@@ -22,6 +22,7 @@
         error-message="Debe ingresar un correo electronico"
         autocomplete
         clear-button
+        @keyup.native.enter="Ingresar"
       ></f7-list-input>
       <!-- Password -->
       <f7-list-input
@@ -35,6 +36,7 @@
         required
         validate
         clear-button
+        @keyup.native.enter="Ingresar"
       ></f7-list-input>
     </f7-list>
     <!-- Boton Ingresar -->
@@ -75,13 +77,37 @@ export default {
       this.error = ""
       if (this.validarCampos()) {
         if (this.validarEmail()) {
-            // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
-            this.LOGIN(this.formLogin).then(response => {
-              console.log(response)
+          Auth.login(this, this.formLogin).then(response => {
+            if (response.status === 201) {
+              // almacenamos los datos JSON de la sesion
+              let data = response.data.data
+              
+              localStorage.setItem('id_token', data.id)
+              localStorage.setItem('v_username', data.username)
+              localStorage.setItem('v_email', data.email)
+      
+              // AQUI VA EL TOKEN NO EL ID (ESTO VIENE DE PHOENIX SERVER)
+              window.userToken = data.token
+              localStorage.setItem('token', data.token)
+              localStorage.setItem('user', JSON.stringify(data))
+              
+              console.log(data);
               // location.reload()
-            }).catch(error => {
-              this.error = error
-            })
+            }else{
+              // devolvemos error JSON
+              console.log(response.data.errors)
+              this.error = response.data.errors
+            }
+          }).catch(error => {
+            this.error = error
+          })
+          // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
+          // this.LOGIN(this.formLogin).then(response => {
+          //   console.log(response)
+          //   // location.reload()
+          // }).catch(error => {
+          //   this.error = error
+          // })
         }else{
           this.error = "Email invalido"
         }
@@ -98,7 +124,8 @@ export default {
     }
   },
   mounted(){
-    localStorage.removeItem('user');
+    console.log(location.hostname)
+    localStorage.removeItem('user')
     localStorage.clear()
   }
 }

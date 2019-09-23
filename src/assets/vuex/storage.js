@@ -9,7 +9,19 @@ export default new Vuex.Store({
   // strict: true,
   state: {
     user: JSON.parse(localStorage.getItem('user')) || '',
-    token: localStorage.getItem('id_token') || null
+    token: localStorage.getItem('id_token') || null,
+
+    socket: null,
+    channel: null,
+    currentConversation: null,
+    AllContacts: [],
+
+    OnlineUsers:[],
+
+    conversations: [],
+
+    contactLoader: false,
+    conversationLoader: false
   },
   getters: {
     getUser: state => {
@@ -17,7 +29,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    LOGIN({commit}, payload){
+    setCurrentUser: async function(context, action){
+      
+    },
+    LOGIN: function({commit}, payload){
       // retornamos una promesa
       return new Promise((resolve, reject )=> {
         Axios.post('login', payload).then( (response) => {

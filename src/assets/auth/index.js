@@ -1,8 +1,6 @@
 const PROTOCOLO = 'https://'
-const PORT = ":443"
-// const PORT = ""
-// const HOST = location.hostname == 'localhost' ? "localhost" :'192.168.1.3'
-const HOST ='www.phoenixserver.ml'
+const HOST = location.hostname == ['localhost', '127.0.0.1'] ? 'localhost' : 'www.phoenixserver.ml' 
+const PORT = location.port == ['8080','8081'] ?':4001' : ':443'
 const URL = HOST+PORT
 const LOGIN_URL = PROTOCOLO+URL+"/api/login"
 const SIGNIN_URL = PROTOCOLO+URL+"/api/signin"
@@ -25,6 +23,7 @@ export default {
   },
   // Cerrar Sesion
   signOut(context){
+    // Limpiamos los datos locales almacenados
     localStorage.removeItem('id_token')
     localStorage.removeItem('v_username')
     localStorage.removeItem('v_email')
