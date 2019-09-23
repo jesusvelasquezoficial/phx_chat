@@ -51,12 +51,9 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-// Api para conectarse al servidor
-// import api from '../api'
 // Funciones de autenticacion
 import Auth from '../../auth'
-// import auth from '../auth'
+import { mapState } from 'vuex';
 import { Socket, Presence } from 'phoenix'
 
 export default {

@@ -55,7 +55,7 @@
 <script>
 // Funciones de autenticacion
 import Auth from '../../auth'
-import { mapActions } from 'vuex'
+// import { mapActions } from 'vuex'
 
 
 export default {
@@ -70,7 +70,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['LOGIN']),
+    // ...mapActions(['LOGIN']),
     Ingresar: function (){
       console.log(this.formLogin.email)
       console.log(this.formLogin.password)
