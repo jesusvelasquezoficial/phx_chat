@@ -4,6 +4,7 @@ import Axios from 'axios';
 // import User from "./modules/user";
 
 Vue.use(Vuex, Axios);
+import {Socket , Presence} from 'phoenix'
 
 export default new Vuex.Store({
   // strict: true,
@@ -24,13 +25,43 @@ export default new Vuex.Store({
     conversationLoader: false
   },
   getters: {
+    getCurrentUser: state => {
+      return state.user
+    },
     getUser: state => {
       return state.user
     }
   },
   actions: {
     setCurrentUser: async function(context, action){
+
+      await context.commit('SET_CURRENT_USER', {user: action.user})
+
+      let presences = {}
+
+      let socket = await new Socket("wss://phoenixserver.ml:443/socket", {params: {token: localStorage.getItem('token')}})
+      let channel = socket.channel("users:join", {})
+      let presence = new Presence(channel)
       
+      function renderOnlineUsers(presence) {
+        let response = ""
+        
+        presence.list((id, {metas: [first, ...rest]}) => {
+          let count = rest.length + 1
+          response += `ID:${id} (conexion: ${count}) `
+        })
+        // IMPRIME LOS USUARIOS CONECTADOS
+        console.log(presence.list());
+        console.log(response)
+      }
+      socket.connect()
+  
+      presence.onSync(() => renderOnlineUsers(presence))
+  
+      channel.join()
+        // .receive("ok", resp => { console.log("Joined successfully", resp) })
+        // .receive("error", resp => { console.log("Unable to join", resp) })
+    
     },
     LOGIN: function({commit}, payload){
       // retornamos una promesa
@@ -64,6 +95,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_CURRENT_USER: function (state, { user }) {
+      state.User = user
+    },
     LOGIN(state, payload) {
       // almacenamos los datos de la sesion en user
       state.user = JSON.stringify(payload)

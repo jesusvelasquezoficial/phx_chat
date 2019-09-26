@@ -53,7 +53,7 @@
 <script>
 // Funciones de autenticacion
 import Auth from '../../auth'
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { Socket, Presence } from 'phoenix'
 
 export default {
@@ -99,8 +99,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(['user']),
-    // ...mapState(['user'])
+    ...mapGetters(
+      ['getCurrentUser']
+    )
   },
   mounted() {
     const self = this
@@ -108,31 +109,10 @@ export default {
     console.log(this.$store.state.user)
     console.log(Auth.user)
     console.log(localStorage.getItem('token'));
-    
-    let socket = new Socket("wss://phoenixserver.ml:443/socket", {params: {token: localStorage.getItem('token')}})
 
-    let channel = socket.channel("users:join", {})
-    let presence = new Presence(channel)
-    
-    function renderOnlineUsers(presence) {
-      let response = ""
-      
-      presence.list((id, {metas: [first, ...rest]}) => {
-        let count = rest.length + 1
-        response += `ID:${id} (conexion: ${count}) `
-      })
-      
-      console.log(presence.list());
-      console.log(response)
-      self.error = response
-    }
-    socket.connect()
-
-    presence.onSync(() => renderOnlineUsers(presence))
-
-    channel.join()
-      // .receive("ok", resp => { console.log("Joined successfully", resp) })
-      // .receive("error", resp => { console.log("Unable to join", resp) })
+    this.$store.dispatch('setCurrentUser', {
+      currentUser: Auth.user
+    });
   }
 }
 </script>

@@ -92,7 +92,7 @@ export default {
               localStorage.setItem('user', JSON.stringify(data))
               
               console.log(data);
-              // location.reload()
+              location.reload()
             }else{
               // devolvemos error JSON
               console.log(response.data.errors)
