@@ -1,11 +1,24 @@
 const PROTOCOLO = 'https://'
-const HOST = location.hostname == ['localhost', '127.0.0.1'] ? 'localhost' : 'www.phoenixserver.ml' 
-const PORT = location.port == ['8080','8081'] ?':4001' : ':443'
+let IPs = ['localhost', '127.0.0.1', '10.0.1.23']
+let PORTs = ['8080','8081']
+let HOST = 'www.phoenixserver.ml'
+IPs.forEach(IP => {
+  if (location.hostname == IP) {
+    HOST = IP
+  }
+});
+let PORT =':443'
+PORTs.forEach(P => {
+  if (location.port == P) {
+    PORT = ':4001'
+  }
+});
 const URL = HOST+PORT
 const LOGIN_URL = PROTOCOLO+URL+"/api/login"
 const SIGNIN_URL = PROTOCOLO+URL+"/api/signin"
 
 export default {
+  URL,
   // Datos de usuario local
   user:{
     id: Number.parseInt(localStorage.getItem('id_token')),
@@ -15,6 +28,10 @@ export default {
   },
   // Iniciar Sesion
   login (context, creds, redirect) {
+    
+    PORTs.forEach(PORT => {
+      console.log(location.port == PORT);
+    });
     return context.axios.post(LOGIN_URL, creds)
   },
   // Registrar Usuario

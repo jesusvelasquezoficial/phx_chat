@@ -74,10 +74,10 @@ export default {
   },
   methods:{
     // funcion para buscar contactos
-    buscarContacto:function() {
+    buscarContacto:function(){
       const self = this
       api.getContacto(self.nombreContato)
-      .then(function(data) {
+      .then(function(data){
         if(Object.keys(data) != "errors"){
           console.log(data)
           self.contacto.id = data.data.id

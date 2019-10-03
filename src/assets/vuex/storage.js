@@ -5,6 +5,8 @@ import Axios from 'axios';
 
 Vue.use(Vuex, Axios);
 import {Socket , Presence} from 'phoenix'
+import Auth from '../auth'
+import { f7Gauge } from 'framework7-vue';
 
 export default new Vuex.Store({
   // strict: true,
@@ -25,6 +27,9 @@ export default new Vuex.Store({
     conversationLoader: false
   },
   getters: {
+    getSocket: state => {
+      return state.socket
+    },
     getCurrentUser: state => {
       return state.user
     },
@@ -38,30 +43,45 @@ export default new Vuex.Store({
       await context.commit('SET_CURRENT_USER', {user: action.user})
 
       let presences = {}
+      
+      let socket = await new Socket("wss://"+Auth.URL+"/socket", {params: {token: localStorage.getItem('token')}})
 
-      let socket = await new Socket("wss://phoenixserver.ml:443/socket", {params: {token: localStorage.getItem('token')}})
+      await context.commit('SET_SOCKET', {socket})
+      
       let channel = socket.channel("users:join", {})
       let presence = new Presence(channel)
       
       function renderOnlineUsers(presence) {
         let response = ""
-        
         presence.list((id, {metas: [first, ...rest]}) => {
           let count = rest.length + 1
           response += `ID:${id} (conexion: ${count}) `
         })
         // IMPRIME LOS USUARIOS CONECTADOS
-        console.log(presence.list());
+        // console.log(presence.list());
         console.log(response)
       }
+      
       socket.connect()
   
       presence.onSync(() => renderOnlineUsers(presence))
   
-      channel.join()
+      // channel.join()
         // .receive("ok", resp => { console.log("Joined successfully", resp) })
         // .receive("error", resp => { console.log("Unable to join", resp) })
-    
+
+      if (channel.state != 'joined') {
+        channel.join().receive('ok', (response) => {
+          window.socket = socket
+          window.channelDiscussion = {}
+          console.log(response);
+          
+        })
+      } else {
+        this.$router.push("{name: 'logout'}")
+        console.log("Something went wrong");
+        return;
+      }
     },
     LOGIN: function({commit}, payload){
       // retornamos una promesa
@@ -95,6 +115,9 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    SET_SOCKET: (state, {socket}) => {
+      state.socket = socket
+    },
     SET_CURRENT_USER: function (state, { user }) {
       state.User = user
     },

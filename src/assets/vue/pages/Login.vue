@@ -57,7 +57,6 @@
 import Auth from '../../auth'
 // import { mapActions } from 'vuex'
 
-
 export default {
   components: {},
   data () {
@@ -72,8 +71,6 @@ export default {
   methods: {
     // ...mapActions(['LOGIN']),
     Ingresar: function (){
-      console.log(this.formLogin.email)
-      console.log(this.formLogin.password)
       this.error = ""
       if (this.validarCampos()) {
         if (this.validarEmail()) {
@@ -101,13 +98,6 @@ export default {
           }).catch(error => {
             this.error = error
           })
-          // enviamos {email, password}, ejecutamos AXIOS y return PROMISE
-          // this.LOGIN(this.formLogin).then(response => {
-          //   console.log(response)
-          //   // location.reload()
-          // }).catch(error => {
-          //   this.error = error
-          // })
         }else{
           this.error = "Email invalido"
         }

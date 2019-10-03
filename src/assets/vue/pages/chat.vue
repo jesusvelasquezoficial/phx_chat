@@ -45,12 +45,12 @@
 
     <f7-messages ref="messages">
       <f7-messages-title>
-        <b>Lunes, Ago 25,</b> 9:58
+        <b>Martes, Dic 31,</b> 12:00
       </f7-messages-title>
       <f7-message
         v-for="(message, index) in messagesData"
         :key="index"
-        :type="message.type"
+        :type="isMyMSJ(message)"
         :image="message.image"
         :name="message.name"
         :avatar="message.avatar"
@@ -74,67 +74,83 @@
   </f7-page>
 </template>
 <script>
+import { mapState, mapGetters } from 'vuex';
 import {Socket} from 'phoenix-socket'
 
 export default {
   components: {},
   data() {
     return {
+       mensaje:{
+        // text: "hola mundo",
+        // userId: 1,
+        // name: "Jesus Velasquez",
+        content: "hola mundo",
+        from_id: 1,
+        conversation_id: 1
+      },
       attachments: [],
       sheetVisible: false,
       typingMessage: null,
       messageText: "",
       messagesData: [
-        {
-          type: "sent",
-          text: "Hi, Kate"
-        },
-        {
-          type: "sent",
-          text: "How are you?"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Hi, I am good!",
-          avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
-        },
-        {
-          name: "Blue Ninja",
-          type: "received",
-          text: "Hi there, I am also fine, thanks! And how are you?",
-          avatar: "https://cdn.framework7.io/placeholder/people-100x100-7.jpg"
-        },
-        {
-          type: "sent",
-          text: "Hey, Blue Ninja! Glad to see you ;)"
-        },
-        {
-          type: "sent",
-          text: "Hey, look, cutest kitten ever!"
-        },
-        {
-          type: "sent",
-          image: "https://cdn.framework7.io/placeholder/cats-200x260-4.jpg"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Nice!",
-          avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
-        },
-        {
-          name: "Kate",
-          type: "received",
-          text: "Like it very much!",
-          avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
-        },
-        {
-          name: "Blue Ninja",
-          type: "received",
-          text: "Awesome!",
-          avatar: "https://cdn.framework7.io/placeholder/people-100x100-7.jpg"
-        }
+        // {
+        //   userId: 1,
+        //   type: "sent",
+        //   text: "Hi, Kate"
+        // },
+        // {
+        //   userId: 1,
+        //   type: "sent",
+        //   text: "How are you?"
+        // },
+        // {
+        //   name: "Kate",
+        //   type: "received",
+        //   text: "Hi, I am good!",
+        //   avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+        // },
+        // {
+        //   name: "Blue Ninja",
+        //   type: "received",
+        //   text: "Hi there, I am also fine, thanks! And how are you?",
+        //   avatar: "https://cdn.framework7.io/placeholder/people-100x100-7.jpg"
+        // },
+        // {
+        //   userId: 1,
+        //   type: "sent",
+        //   text: "Hey, Blue Ninja! Glad to see you ;)"
+        // },
+        // {
+        //   userId: 1,
+        //   type: "sent",
+        //   text: "Hey, look, cutest kitten ever!"
+        // },
+        // {
+        //   userId: 1,
+        //   type: "sent",
+        //   image: "https://cdn.framework7.io/placeholder/cats-200x260-4.jpg"
+        // },
+        // {
+        //   userId: 1,
+        //   name: "Kate",
+        //   type: "received",
+        //   text: "Nice!",
+        //   avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+        // },
+        // {
+        //   userId: 1,
+        //   name: "Kate",
+        //   type: "received",
+        //   text: "Like it very much!",
+        //   avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+        // },
+        // {
+        //   name: "Blue Ninja",
+        //   type: "received",
+        //   text: "Awesome!",
+        //   avatar: "https://cdn.framework7.io/placeholder/people-100x100-7.jpg"
+        // }
       ],
       images: [
         "https://cdn.framework7.io/placeholder/cats-300x300-1.jpg",
@@ -185,32 +201,42 @@ export default {
     placeholder() {
       const self = this;
       return self.attachments.length > 0 ? "Add comment or Send" : "Message";
-    }
+    },
+    ...mapGetters(
+      ['getCurrentUser', 'getSocket']
+    )
   },
   mounted() {
+    
     const self = this
     self.$f7ready(() => {
       self.messagebar = self.$refs.messagebar.f7Messagebar;
       self.messages = self.$refs.messages.f7Messages;
     })
-    console.log(localStorage.getItem('token'))
-    self.socket = new Socket("wss://phoenixserver.ml:443/socket", {params: {token: localStorage.getItem('token')}})
+    self.socket = self.getSocket
     self.socket.connect()
-
     self.channel = self.socket.channel("conversation:lobby", {})
 
     self.channel.on("new_msg", payload => {
-        self.messagesData.push(...payload.body);
-        console.log(payload);
-        console.log(self.messagesData);
-        
-      })
+      self.messagesData.push(payload.msj);
+      console.log(payload);
+      console.log(self.messagesData);
+    })
 
     self.channel.join()
       .receive("ok", resp => { console.log("Joined Phoenix successfully", resp) })
       .receive("error", resp => { console.log("Unable to join Phoenix", resp) })
   },
   methods: {
+    isMyMSJ(msj){
+      if (this.getCurrentUser.id === msj.userId ) {
+        delete msj.name
+        delete msj.avatar
+        return "sent" 
+      }
+      return "received"
+      
+    },
     isFirstMessage(message, index) {
       const self = this;
       const previousMessage = self.messagesData[index - 1];
@@ -271,19 +297,47 @@ export default {
       const self = this;
       const text = self.messageText.replace(/\n/g, "<br>").trim();
       const messagesToSend = [];
+      let mensajeAEnviar = {}
       self.attachments.forEach(attachment => {
         messagesToSend.push({
           image: attachment
         });
+        mensajeAEnviar.image = attachment
       });
       if (text.length) {
+        const person = {
+          name: self.getCurrentUser.username,
+          avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+        }
+        // self.typingMessage = {
+        //   name: person.name,
+        //   avatar: person.avatar
+        // }
         messagesToSend.push({
-          text
-        });
+          text,
+          name: person.name,
+          avatar: person.avatar,
+          userId: self.getCurrentUser.id
+        })
+
+        let datos = {
+          text,
+          from_id: self.getCurrentUser.id,
+          conversation_id: 1,
+          content: text,
+          name: person.name,
+          avatar: person.avatar,
+          userId: self.getCurrentUser.id
+        }
+
+        mensajeAEnviar = {...datos}
       }
+
       if (messagesToSend.length === 0) {
         return;
       }
+
+      // VALIDAR LONGITUD DE -> mensajeAEnviar <- OJO CON ESTO !!
 
       // Reset attachments
       self.attachments = [];
@@ -295,7 +349,8 @@ export default {
       if (text.length) self.messagebar.focus();
       // Send message
       // self.messagesData.push(...messagesToSend);
-      self.channel.push("new_msg", {body: messagesToSend})
+     
+      self.channel.push("new_msg", {msj: mensajeAEnviar})
 
       // Mock response
       // if (self.responseInProgress) return;
