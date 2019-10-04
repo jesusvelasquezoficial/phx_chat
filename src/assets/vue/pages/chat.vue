@@ -75,6 +75,7 @@
 </template>
 <script>
 import { mapState, mapGetters } from 'vuex';
+import Auth from '../../auth'
 import {Socket} from 'phoenix-socket'
 
 export default {
@@ -207,8 +208,33 @@ export default {
     )
   },
   mounted() {
-    
+    let dataDB = []
     const self = this
+    // Cargamos los mensajes de la conversacion PHOENIX
+    this.axios.get('https://'+Auth.URL+'/api/messages').then(res => {
+      // Recorremos cada uno de los mensajes de la DB (element)
+      res.data.data.forEach(element => {
+        // Buscamos el usuario segun el userId del mensaje
+        this.axios.get('https://'+Auth.URL+'/api/users/'+element.userId).then(result => {
+          // Creamos un obj person con el nombre y el avatar del usuario
+          let person = {
+            name: result.data.data.username,
+            avatar: "/logo.png"
+            // avatar: "https://cdn.framework7.io/placeholder/people-100x100-9.jpg"
+          }
+          // unimos el nombre y el avatar al mensaje de la DB
+          element.name = person.name
+          element.avatar = person.avatar
+          dataDB.push(element)
+        })
+      });
+      console.log(dataDB);
+      
+      self.messagesData = dataDB
+    }).catch(error => {
+      console.log("Ha ocurrido un ERROR al extraer los datos del SERVIDOR");
+      console.log(error);
+    })
     self.$f7ready(() => {
       self.messagebar = self.$refs.messagebar.f7Messagebar;
       self.messages = self.$refs.messages.f7Messages;
